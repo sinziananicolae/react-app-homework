@@ -49,10 +49,10 @@ class CarsList extends Component {
 
         setTimeout(function () {
             var $collapsible = $('#collapseOne' + i); // Let's be thorough
-            console.log($collapsible)
-            $collapsible.collapse('toggle');
-
-        }, 1000);
+            $collapsible.collapse({
+                toggle: true
+            });
+        }, 100);
 
     }
 
