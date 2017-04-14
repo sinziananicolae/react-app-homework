@@ -3,6 +3,7 @@ var axios = require('axios');
 import Pagination from './Pagination.js'
 import CarForm from './CarForm.js'
 import carPic from './car.png';
+var _ = require('lodash');
 
 class CarsList extends Component {
     constructor() {
@@ -13,6 +14,7 @@ class CarsList extends Component {
         };
         this.onPageChange = this.onPageChange.bind(this);
         this.setEditOpen = this.setEditOpen.bind(this);
+        this.handleUpdate = this.handleUpdate.bind(this);
     }
 
     componentWillMount() {
@@ -40,6 +42,16 @@ class CarsList extends Component {
     setEditOpen(car, i) {
         var stateCopy = Object.assign([], this.state.carsList);
         stateCopy[i].isEditOpen = !stateCopy[i].isEditOpen;
+        this.setState({
+            carsList: stateCopy
+        });
+    }
+
+    handleUpdate(car) {
+        var stateCopy = Object.assign([], this.state.carsList);
+        var i = _.findIndex(this.state.carsList, function(stateCar) { return stateCar.id === car.id; });
+
+        stateCopy[i] = car;
         this.setState({
             carsList: stateCopy
         });
@@ -73,7 +85,7 @@ class CarsList extends Component {
                                     </div>
                                 </div>
                                 {car.isEditOpen ? <div id={"collapseOne" + index} className="panel-collapse collapse in" role="tabpanel" aria-labelledby={"headingOne" + index}>
-                                    <CarForm editCar={car} />
+                                    <CarForm editCar={car} handleUpdate={this.handleUpdate} />
                                 </div> : null}
                             </div>
                         </div>

@@ -1,31 +1,23 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 
-class Input extends Component {
-    constructor() {
-        super()
-        this.handleChange = this.handleChange.bind(this);
-    }
-
-    handleChange(event) {
-        console.log(event)
-    }
-
-    render() {
-        var car = this.state.car;
-        return (
-            <div className="form-group">
-                <label className="control-label col-sm-2" htmlFor="name">Name:</label>
-                <div className="col-sm-10">
-                    <input type="input" className="form-control" value={car.name} onChange={this.handleChange} />
-                </div>
-            </div>
-        );
-    }
-}
+const Input = (props) => (
+    <div className="form-group">
+        <label className="control-label col-sm-4" >{props.label}:</label>
+        <div className="col-sm-8">
+            <input type={props.type} className="form-control" defaultValue={props.value} onChange={props.handleChange} data-label={props.label}/>
+        </div>
+    </div>
+);
 
 Input.propTypes = {
-
+    value: PropTypes.oneOfType([
+        PropTypes.string.isRequired,
+        PropTypes.number.isRequired
+    ]),
+    label: PropTypes.string.isRequired,
+    type: PropTypes.string.isRequired,
+    handleChange: PropTypes.func.isRequired,
 }
 
 export default Input;
