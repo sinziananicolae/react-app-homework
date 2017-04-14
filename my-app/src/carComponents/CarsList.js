@@ -1,42 +1,43 @@
 import React, { Component } from 'react';
-var axios = require('axios');
-import Pagination from './Pagination.js'
+import Pagination from '../commonComponents/Pagination.js'
 import CarForm from './CarForm.js'
-import carPic from './car.png';
+import carPic from '../content/img/car.png';
+import { GetCars } from '../services/services.js'
 var _ = require('lodash');
+var $ = require('jquery');
 
 class CarsList extends Component {
     constructor() {
         super()
+
         this.state = {
             carsList: [],
             meta: {}
         };
-        this.onPageChange = this.onPageChange.bind(this);
+
+        this.getCars = this.getCars.bind(this);
         this.setEditOpen = this.setEditOpen.bind(this);
-        this.handleUpdate = this.handleUpdate.bind(this);
+        this.onPaginationChange = this.onPaginationChange.bind(this);
+        this.handleCarUpdate = this.handleCarUpdate.bind(this);
+
+    }
+
+    getCars(limit, offset) {
+        var self = this;
+        GetCars(limit, offset).then(function (response) {
+            self.setState({
+                carsList: response.data.objects,
+                meta: response.data.meta
+            });
+        });
     }
 
     componentWillMount() {
-        var self = this;
-        axios.get('http://23.20.81.107/api/v1/car/?format=json').then(function (response) {
-            self.setState({
-                carsList: response.data.objects,
-                meta: response.data.meta
-            });
-        });
+        this.getCars();
     }
 
-
-    onPageChange(page) {
-        var self = this;
-        var offset = (page - 1) * this.state.meta.limit;
-        axios.get('http://23.20.81.107/api/v1/car/?offset=' + offset + '&limit=' + this.state.meta.limit + '&format=json').then(function (response) {
-            self.setState({
-                carsList: response.data.objects,
-                meta: response.data.meta
-            });
-        });
+    onPaginationChange(limit, offset) {
+        this.getCars(limit, offset);
     }
 
     setEditOpen(car, i) {
@@ -45,11 +46,19 @@ class CarsList extends Component {
         this.setState({
             carsList: stateCopy
         });
+
+        setTimeout(function () {
+            var $collapsible = $('#collapseOne' + i); // Let's be thorough
+            console.log($collapsible)
+            $collapsible.collapse('toggle');
+
+        }, 1000);
+
     }
 
-    handleUpdate(car) {
+    handleCarUpdate(car) {
         var stateCopy = Object.assign([], this.state.carsList);
-        var i = _.findIndex(this.state.carsList, function(stateCar) { return stateCar.id === car.id; });
+        var i = _.findIndex(this.state.carsList, function (stateCar) { return stateCar.id === car.id; });
 
         stateCopy[i] = car;
         this.setState({
@@ -60,7 +69,9 @@ class CarsList extends Component {
     render() {
         return (
             <div className="list-body">
-                <Pagination limit={this.state.meta.limit} total={this.state.meta.total_count} offset={this.state.meta.offset} onPageChange={this.onPageChange} />
+
+                <Pagination limit={this.state.meta.limit} total={this.state.meta.total_count} offset={this.state.meta.offset} maxSize={5} onPaginationChange={this.onPaginationChange} />
+
                 <div className="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
                     {this.state.carsList.map((car, index) => (
                         <div key={index}>
@@ -84,8 +95,8 @@ class CarsList extends Component {
                                         <div><b>Year: </b> {car.year}</div>
                                     </div>
                                 </div>
-                                {car.isEditOpen ? <div id={"collapseOne" + index} className="panel-collapse collapse in" role="tabpanel" aria-labelledby={"headingOne" + index}>
-                                    <CarForm editCar={car} handleUpdate={this.handleUpdate} />
+                                {car.isEditOpen ? <div id={"collapseOne" + index} className="panel-collapse collapse" role="tabpanel" aria-labelledby={"headingOne" + index}>
+                                    <CarForm editCar={car} handleUpdate={this.handleCarUpdate} />
                                 </div> : null}
                             </div>
                         </div>

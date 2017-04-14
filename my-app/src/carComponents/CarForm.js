@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import Input from './Input.js'
-// var axios = require('axios');
-var _ = require('lodash');
-var $ = require ('jquery')
+import Input from '../formComponents/Input.js'
+
+var _ = require('lodash')
+var $ = require('jquery')
 
 class CarForm extends Component {
     constructor(props) {
@@ -51,7 +51,7 @@ class CarForm extends Component {
 
     isFormValid() {
         var isValid = true;
-        _.find(this.state.car, function(value) {
+        _.find(this.state.car, function (value) {
             if (value === "") {
                 isValid = false;
                 return;
@@ -65,16 +65,16 @@ class CarForm extends Component {
         return (
             <div className="panel-body row form-horizontal">
                 <div className="col-xs-6">
-                    <Input value={car.name} label='Name' type='text' handleChange={this.handleChangeText}/>
-                    <Input value={car.acceleration} label='Acceleration' type='number' handleChange={this.handleChangeNumber}/>
-                    <Input value={car.cylinders} label='Cylinders' type='number' handleChange={this.handleChangeNumber}/>
-                    <Input value={car.displacement} label='Displacement' type='number' handleChange={this.handleChangeNumber}/>
+                    <Input value={car.name} label='Name' type='text' handleChange={this.handleChangeText} />
+                    <Input value={car.acceleration} label='Acceleration' type='number' handleChange={this.handleChangeNumber} />
+                    <Input value={car.cylinders} label='Cylinders' type='number' handleChange={this.handleChangeNumber} />
+                    <Input value={car.displacement} label='Displacement' type='number' handleChange={this.handleChangeNumber} />
                 </div>
                 <div className="col-xs-6">
-                    <Input value={car.horsepower} label='Horsepower' type='number' handleChange={this.handleChangeNumber}/>
-                    <Input value={car.mpg} label='Mpg' type='number' handleChange={this.handleChangeNumber}/>
-                    <Input value={car.weight} label='Weight' type='number' handleChange={this.handleChangeNumber}/>
-                    <Input value={car.year} label='Year' type='number' handleChange={this.handleChangeNumber}/>
+                    <Input value={car.horsepower} label='Horsepower' type='number' handleChange={this.handleChangeNumber} />
+                    <Input value={car.mpg} label='Mpg' type='number' handleChange={this.handleChangeNumber} />
+                    <Input value={car.weight} label='Weight' type='number' handleChange={this.handleChangeNumber} />
+                    <Input value={car.year} label='Year' type='number' handleChange={this.handleChangeNumber} />
                 </div>
                 <div className="col-xs-12">
                     <button type="button" className="btn btn-success" onClick={() => this.saveCar(car)} disabled={!this.isFormValid()}>Save</button>

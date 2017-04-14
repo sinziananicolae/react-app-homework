@@ -35,6 +35,10 @@
   margin-top: 15px;
 }
 
+.float-right {
+  float: right;
+}
+
 .pagination-items {
   color: grey !important;
   background-color: #fff !important;
@@ -42,4 +46,19 @@
   line-height: 20px !important;
   margin-left: 10px !important;
   border: none !important;
+  width: 150px;
+}
+
+.pagination-per-page {
+    float: right;
+    display: inline-flex;
+    padding-left: 0;
+}
+
+.pagination-per-page div{
+    width: 300px;
+    color: grey;
+    background-color: #fff;
+    font-size: 12px;
+    line-height: 35px;
 }

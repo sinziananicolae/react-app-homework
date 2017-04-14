@@ -1,7 +1,11 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
-import CarsList from './CarsList.js' 
+import * as $ from 'jquery/dist/jquery.min.js'
+import 'bootstrap/dist/css/bootstrap.min.css'
+import 'bootstrap/dist/css/bootstrap-theme.min.css'
+import 'bootstrap/dist/js/bootstrap.min.js'
+import logo from './content/img/logo.svg';
+import './content/css/App.css';
+import CarsList from './carComponents/CarsList.js'
 
 class App extends Component {
   render() {
