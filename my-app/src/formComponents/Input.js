@@ -2,10 +2,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 const Input = (props) => (
-    <div className="form-group">
+    <div className="form-group col-sm-6">
         <label className="control-label col-sm-4" >{props.label}:</label>
-        <div className="col-sm-8">
-            <input type={props.type} className="form-control" defaultValue={props.value} onChange={props.handleChange} data-label={props.label}/>
+        <div className="col-sm-6">
+            <input type={props.type} className="form-control" defaultValue={props.value} onChange={(event) => props.handleChange(event, props.type)} data-label={props.label}/>
         </div>
     </div>
 );
