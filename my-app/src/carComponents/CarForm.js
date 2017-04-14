@@ -1,18 +1,17 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Input from '../formComponents/Input.js'
-import { CarService } from '../services/services.js'
+import { CarService } from '../services/Services.js'
 import { CarModel } from './CarModel.js'
 
 var _ = require('lodash')
-var $ = require('jquery')
 
 class CarForm extends Component {
     constructor(props) {
         super(props)
 
         this.state = {
-            car: props.editCar,
+            car: _.clone(props.editCar),
             loading: false
         };
 
@@ -28,20 +27,13 @@ class CarForm extends Component {
      */
     saveCar(car) {
         var self = this;
-        // CarService.UpdateCar(car.id).then(function(response) {
-        //     self.props.handleUpdate(response);
-        // });
+        
         self.setState({ loading: true });
-
-        $.ajax({
-            url: 'http://23.20.81.107/api/v1/car/' + car.id + '/?format=json',
-            type: 'PUT',
-            dataType:"json",
-            data: car,
-            success: function(data) {
-                self.props.handleUpdate(data);
-                self.setState({ loading: false });
-            }});
+        
+        CarService.UpdateCar(car.id, car).then(function(response) {
+            self.props.handleUpdate(response);
+            self.setState({ loading: false });
+        });
     }
 
     /**
@@ -55,7 +47,8 @@ class CarForm extends Component {
         const copyCar = this.state.car;
 
         if (type === "number") {
-            copyCar[elementLabel] = parseFloat(event.target.value);
+	    var newInputValue = parseFloat(event.target.value);
+            copyCar[elementLabel] = isNaN(newInputValue) ? null : newInputValue;
         } else if (type === "text") {
             copyCar[elementLabel] = event.target.value;
         }
@@ -71,7 +64,7 @@ class CarForm extends Component {
     isFormValid() {
         var isValid = true;
         _.find(this.state.car, (value) => {
-            if (value === "") {
+            if (value === "" || _.isNull(value) || _.isUndefined(value)) {
                 isValid = false;
                 return;
             }
@@ -83,7 +76,7 @@ class CarForm extends Component {
         var car = this.state.car;
         var carModel = _.values(CarModel);
         return (
-            <div className="panel-body row form-horizontal">
+            <div className="panel-body form-horizontal">
                 {
                     carModel.map((property, i) => (
                         <Input key={i} value={ car[property.objProp] } label={ property.label } 

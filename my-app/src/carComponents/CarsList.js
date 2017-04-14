@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import Pagination from '../commonComponents/Pagination.js'
 import CarForm from './CarForm.js'
 import carPic from '../content/img/car.png';
-import { CarService } from '../services/services.js'
+import { CarService } from '../services/Services.js'
 import { CarModel } from './CarModel.js'
 var _ = require('lodash');
 var $ = require('jquery');
@@ -33,8 +33,8 @@ class CarsList extends Component {
         var self = this;
         CarService.GetCars(limit, offset).then(function (response) {
             self.setState({
-                carsList: response.data.objects,
-                meta: response.data.meta
+                carsList: response.objects,
+                meta: response.meta
             });
         });
     }
