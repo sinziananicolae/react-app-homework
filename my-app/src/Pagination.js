@@ -85,7 +85,7 @@ class Pagination extends Component {
                 </li>
                 
                 <li>
-                    {this.props.offset + 1} - {this.props.offset + this.props.limit} of {this.props.total} items
+                    <span className="pagination-items">{this.props.offset + 1} - {this.props.offset + this.props.limit} of {this.props.total} items </span>
                 </li>
             </ul>
         );

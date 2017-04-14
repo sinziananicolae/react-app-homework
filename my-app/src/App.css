@@ -9,7 +9,7 @@
 
 .App-header {
   background-color: #222;
-  height: 150px;
+  height: 120px;
   padding: 20px;
   color: white;
 }
@@ -21,4 +21,25 @@
 @keyframes App-logo-spin {
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
+}
+
+.list-body {
+  padding: 25px 500px;
+}
+
+.m-0 {
+  margin: 0;
+}
+
+.m-t-15 {
+  margin-top: 15px;
+}
+
+.pagination-items {
+  color: grey !important;
+  background-color: #fff !important;
+  font-size: 12px !important;
+  line-height: 20px !important;
+  margin-left: 10px !important;
+  border: none !important;
 }
